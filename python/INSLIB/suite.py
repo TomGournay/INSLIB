@@ -69,6 +69,17 @@ class Navigator(_Base):
     """nav_suite-backed navigator (the "best available solution")."""
     _prefix = "ins_suite"
 
+    def attitude_quaternion(self):
+        """Native robot-to-NED quaternion [w,x,y,z]: INS, AHRS, then ARS.
+
+        ARS heading remains relative; vertical projections are unaffected.
+        """
+        out = (ctypes.c_float * 4)()
+        fn = _lib.ins_suite_get_attitude_quaternion
+        fn.argtypes = [ctypes.c_void_p, ctypes.POINTER(ctypes.c_float)]
+        fn.restype = ctypes.c_int
+        return list(out) if fn(self._h, out) else None
+
     # --- attitude sources ---------------------------------------------------
     def mode(self) -> int:
         return int(_lib.ins_suite_get_mode(self._h))

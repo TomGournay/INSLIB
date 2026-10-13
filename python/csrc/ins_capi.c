@@ -1037,6 +1037,16 @@ int ins_suite_get_quaternion(void* h, float o[4])
     ins_suite_ctx_t* c = (ins_suite_ctx_t*)h;
     return c && ins_get_quaternion(&c->suite.ins, o);
 }
+/* Native attitude, without an Euler round trip. ARS yaw is relative;
+ * the vertical inclination is independent of that heading reference. */
+int ins_suite_get_attitude_quaternion(void* h, float o[4])
+{
+    ins_suite_ctx_t* c = (ins_suite_ctx_t*)h;
+    if (!c) return 0;
+    if (ins_is_ready(&c->suite.ins) && ins_get_quaternion(&c->suite.ins, o)) return 1;
+    if (ahrs_get_quaternion(&c->suite.ahrs, o)) return 1;
+    return ahrs_get_quaternion(&c->suite.ars, o);
+}
 int ins_suite_get_rotmat_b_to_n(void* h, float o[9])
 {
     ins_suite_ctx_t* c = (ins_suite_ctx_t*)h;

@@ -542,6 +542,7 @@ extern "C"
     int ins_suite_get_position_local(void* h, float out_ned[3]);
     int ins_suite_get_velocity_ned(void* h, float out_ned[3]);
     int ins_suite_get_quaternion(void* h, float out_wxyz[4]);
+    int ins_suite_get_attitude_quaternion(void* h, float out_wxyz[4]);
     int ins_suite_get_rotmat_b_to_n(void* h, float out9[9]);
     int ins_suite_get_omega_b_nb(void* h, float out[3]);
     int ins_suite_get_acc_n(void* h, float out_ned[3]);
